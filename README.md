@@ -1,77 +1,71 @@
 # FocusMatrix
 
-FocusMatrix is an execution-first productivity notebook built around the Eisenhower Matrix.
+FocusMatrix is a lightweight productivity app built around the Eisenhower Matrix, daily execution tracking, and simple behavioral analytics.
 
-Most task apps are good at helping you plan. FocusMatrix is about helping you see whether you actually finished the right work, how your day was distributed across urgent vs. important tasks, and what that pattern says about your habits over time.
+The idea is straightforward: most productivity tools are good at collecting tasks, but not very good at showing whether you actually spent time on the right work. FocusMatrix tries to close that gap by combining planning, completion tracking, and a small feedback loop around execution quality.
 
-## Why this project exists
+## What it is
 
-The original idea behind FocusMatrix came from a simple frustration:
+This repository currently contains a static web app prototype with:
 
-people often end the day with a full task list, a tired brain, and no clear answer to one honest question:
+- task capture with quadrant, category, and energy tagging
+- automatic quadrant suggestions based on task wording
+- a daily dashboard with a discipline score and work-distribution metrics
+- a weekly summary view
+- browser-based local persistence with no backend required to use the prototype
 
-**"Did I spend my time on the work that actually mattered?"**
+The current product direction is intentionally simple: make it fast to open, easy to understand, and honest about how your day was actually spent.
 
-That is the gap this project is trying to solve.
+## Why it exists
 
-FocusMatrix takes the familiar Eisenhower Matrix and turns it into a lightweight behavioral tool. Instead of only storing tasks, it helps track:
+The project started from a pretty common problem:
 
-- what you planned
-- what you completed
-- what kind of work filled your day
-- how much of your time went to strategic work vs. reactive work
+you can end a day with a full list, a lot of activity, and still have no clean sense of whether you made progress on the work that really mattered.
 
-## What the app does
+FocusMatrix is based on the belief that execution tells a more useful story than planning alone.
 
-The current prototype lets you:
+## Current stack
 
-- add tasks with quadrant, category, and energy tags
-- auto-suggest a quadrant from the task wording
-- mark tasks complete and remove them
-- view a daily discipline score
-- see your task distribution across the Eisenhower Matrix
-- review a simple weekly summary
-- keep everything stored locally in the browser with no backend required
+- HTML
+- CSS
+- vanilla JavaScript
+- browser `localStorage` for persistence
+- GitHub Pages workflow for zero-cost deployment
 
-## What this is right now
+There is also an early backend MVP in [backend/](./backend/README.md), but the main usable version today is the static app.
 
-This repository currently contains a polished static prototype.
+## Running it locally
 
-It is designed to be:
+No build step is required.
 
-- easy to run locally
-- easy to understand for collaborators
-- easy to publish with GitHub Pages
-- easy to extend later into a real full-stack product
+1. Clone the repository
+2. Open [`index.html`](./index.html) in a browser
 
-The static app lives at [index.html](/C:/Users/nisha/Downloads/files/index.html).
+That is enough to use the app.
 
-There is also an older prototype file at [focusmatrix_v2.html](/C:/Users/nisha/Downloads/files/focusmatrix_v2.html), and an early backend MVP kept in [backend/](/C:/Users/nisha/Downloads/files/backend/README.md) for future work.
+## Main files
 
-## Core product idea
+```text
+index.html                 # app entry
+styles/main.css            # notebook-style UI
+src/app.js                 # UI behavior and rendering
+src/data.js                # local persistence + seed data
+src/analytics.js           # score and weekly summary logic
+docs/QA-CHECKLIST.md       # manual validation checklist
+tests/run-tests.cmd        # lightweight Windows test runner
+```
 
-FocusMatrix is not trying to be "just another to-do app."
-
-Its core point of view is:
-
-> planning is easy to overvalue; execution is what tells the truth.
-
-The project is built around three ideas:
-
-1. The Eisenhower Matrix is simple enough that almost anyone already understands it.
-2. Productivity is more useful when it shows behavior, not just intention.
-3. A small daily feedback loop is often more helpful than a heavy system.
-
-## Features in the current prototype
+## What works today
 
 ### Daily notebook
 
-- quick task entry
-- category and energy tagging
-- task completion and deletion
-- local persistence with browser `localStorage`
+- add tasks
+- assign quadrant, category, and energy
+- complete tasks
+- delete tasks
+- reset demo data
 
-### Behavioral dashboard
+### Behavior layer
 
 - daily discipline score
 - completion rate
@@ -81,132 +75,91 @@ The project is built around three ideas:
 
 ### Weekly review
 
-- seven-day score summary
-- weekly average
-- lightweight written insights
+- seven-day summary
+- average score
+- lightweight textual insights
 
-### UI direction
+## Deployment
 
-- notebook-inspired visual style
-- minimal layout
-- subtle animations
-- reduced-motion support
+This repo is already set up to go live through GitHub only.
 
-## Project structure
+The workflow is in [deploy-pages.yml](./.github/workflows/deploy-pages.yml).
 
-```text
-focusmatrix-app/
-|- index.html
-|- styles/main.css
-|- src/analytics.js
-|- src/data.js
-|- src/app.js
-|- docs/QA-CHECKLIST.md
-|- tests/run-tests.cmd
-|- .github/workflows/deploy-pages.yml
-|- focusmatrix_v2.html
-`- backend/
-```
+To publish it:
 
-## Running the project locally
+1. Push to `main`
+2. Open the repository on GitHub
+3. Go to `Settings` -> `Pages`
+4. Select `GitHub Actions` as the source
 
-No build step is required for the current prototype.
+That is enough to deploy the static prototype without paying for any additional platform.
 
-1. Clone the repository.
-2. Open [index.html](/C:/Users/nisha/Downloads/files/index.html) in a browser.
+Once GitHub Pages is enabled, the live site URL will be:
 
-That is enough to use the app.
+`https://nishantbhadke.github.io/focusmatrix-app/`
 
-All prototype data is stored in your browser, so nothing else needs to be installed for the static version.
+## Testing
 
-## Running the tests
-
-This repo includes a small analytics test runner for Windows:
+For the current prototype, there is a small Windows-based test runner:
 
 ```bat
 tests\run-tests.cmd
 ```
 
-The test file validates the score logic and weekly summary behavior using built-in Windows scripting tools.
+It validates the analytics logic using built-in Windows scripting tools.
 
-## Publishing with GitHub only
+For manual checks, use [docs/QA-CHECKLIST.md](./docs/QA-CHECKLIST.md).
 
-This project does not require any paid platform to go live as a prototype.
+## Product direction
 
-The repository already includes a GitHub Pages workflow at [deploy-pages.yml](/C:/Users/nisha/Downloads/files/.github/workflows/deploy-pages.yml).
+FocusMatrix is not trying to become a bloated task manager.
 
-To publish it:
+The stronger direction for the product is:
 
-1. Push your changes to `main`
-2. Open the repository on GitHub
-3. Go to `Settings` -> `Pages`
-4. Set the source to `GitHub Actions`
-
-After that, GitHub can deploy the site directly from the repository.
-
-## Areas to check before shipping changes
-
-Use the checklist in [docs/QA-CHECKLIST.md](/C:/Users/nisha/Downloads/files/docs/QA-CHECKLIST.md).
-
-The most important areas are:
-
-- task creation, completion, and deletion
-- score calculation and weekly summary logic
-- layout on smaller screens
-- reset behavior and local data persistence
-- documentation accuracy
+- a fast daily planning surface
+- better execution visibility
+- clearer separation between strategic work and reactive work
+- lightweight personal analytics that stay useful without becoming noisy
 
 ## Roadmap
 
 Near-term:
 
-- connect the static UI to the backend MVP
-- add edit-in-place for tasks
-- improve weekly insight quality
-- add clearer onboarding and empty states
+- connect the UI to the backend MVP
+- support editing existing tasks
+- improve the weekly insight layer
+- tighten onboarding and empty states
 
 Later:
 
-- authenticated user accounts
-- cloud sync
-- richer analytics
+- user accounts
+- synced history
 - focus sessions
 - calendar integration
-- team and manager views
+- richer behavior reporting
+- team features
 
 ## Initial idea based on
 
-This project is based on a mix of:
+FocusMatrix is influenced by:
 
-- the **Eisenhower Matrix** for prioritization
-- the broader idea of **behavioral productivity** rather than simple task collection
-- the practical need for a tool that shows the gap between planning and execution
+- the Eisenhower Matrix as a prioritization framework
+- the broader idea of behavioral productivity
+- the practical gap between planning work and actually finishing it
 
-It is especially influenced by the observation that most people do not struggle to write down tasks.
+In simple terms: most people do not need more ways to write down tasks. They need a better way to see whether they are consistently finishing the right ones.
 
-They struggle to consistently finish the right ones.
-
-## About the project owner
+## Project owner
 
 **Nishant Bhadke**  
 GitHub: [nishantbhadke](https://github.com/nishantbhadke)  
 Email: [nishantbhadke118@gmail.com](mailto:nishantbhadke118@gmail.com)
 
-## Notes on the README style
+## Additional notes
 
-This README was restructured to follow the kind of layout that good developer-facing repositories usually use:
-
-- clear first paragraph
-- direct explanation of the problem
-- concrete feature summary
-- simple local setup
-- real project status
-- practical next steps
-
-The structure was informed by examples and guidance such as:
-
-- GitHub's repository README best-practice guidance
-- the `mhucka/readmine` README structure example
+- [focusmatrix_v2.html](./focusmatrix_v2.html) is the earlier single-file prototype and is still kept in the repo for reference.
+- [backend/](./backend/README.md) contains an early backend MVP for future expansion.
+- The current primary entry point is [`index.html`](./index.html).
 
 ## License
 
