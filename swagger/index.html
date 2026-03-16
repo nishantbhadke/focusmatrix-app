@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FocusMatrix API Docs</title>
+  <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@5/swagger-ui.css">
+  <style>
+    body { margin: 0; background: #f4efe5; }
+    .top-note {
+      padding: 14px 18px;
+      background: #1f2430;
+      color: #f7f1e4;
+      font-family: Arial, sans-serif;
+    }
+    .top-note a { color: #9fd0ff; }
+  </style>
+</head>
+<body>
+  <div class="top-note">
+    FocusMatrix API docs. These docs can live on GitHub Pages, but the actual Node/Mongo backend must be hosted separately.
+    Prototype: <a href="../prototype/">prototype</a> |
+    App route: <a href="../app/">app</a>
+  </div>
+  <div id="swagger-ui"></div>
+  <script src="https://unpkg.com/swagger-ui-dist@5/swagger-ui-bundle.js"></script>
+  <script>
+    window.onload = function () {
+      window.SwaggerUIBundle({
+        url: './openapi.json',
+        dom_id: '#swagger-ui'
+      });
+    };
+  </script>
+</body>
+</html>

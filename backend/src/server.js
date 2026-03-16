@@ -11,13 +11,8 @@ const {
   suggestQuadrant
 } = require('./analytics');
 const {
-  dataFile,
-  getTasks,
   normalizeDate,
-  readStore,
-  createTask,
-  updateTask,
-  deleteTask
+  getStore
 } = require('./store');
 
 const HOST = process.env.HOST || '0.0.0.0';
@@ -88,10 +83,12 @@ async function router(request, response) {
   }
 
   if (request.method === 'GET' && url.pathname === '/health') {
+    const store = await getStore();
     sendJson(response, 200, {
       status: 'ok',
       service: 'focusmatrix-backend',
-      storage: dataFile,
+      storage: store.storageLabel,
+      driver: store.kind,
       now: new Date().toISOString()
     });
     return;
@@ -107,7 +104,8 @@ async function router(request, response) {
   }
 
   if (request.method === 'GET' && url.pathname === '/api/tasks') {
-    const { tasks } = getTasks({
+    const store = await getStore();
+    const { tasks } = await store.getTasks({
       date: url.searchParams.get('date') || undefined,
       from: url.searchParams.get('from') || undefined,
       to: url.searchParams.get('to') || undefined,
@@ -124,15 +122,17 @@ async function router(request, response) {
   }
 
   if (request.method === 'POST' && url.pathname === '/api/tasks') {
+    const store = await getStore();
     const payload = await readJsonBody(request);
-    const task = createTask(payload);
+    const task = await store.createTask(payload);
     sendJson(response, 201, { item: task });
     return;
   }
 
   if (request.method === 'GET' && url.pathname === '/api/dashboard') {
+    const store = await getStore();
     const date = normalizeDate(url.searchParams.get('date') || undefined);
-    const { tasks } = getTasks({ date });
+    const { tasks } = await store.getTasks({ date });
     sendJson(response, 200, {
       date,
       summary: summarizeDay(tasks),
@@ -142,9 +142,10 @@ async function router(request, response) {
   }
 
   if (request.method === 'GET' && url.pathname === '/api/report/weekly') {
+    const store = await getStore();
     const referenceDate = normalizeDate(url.searchParams.get('date') || undefined);
-    const store = readStore();
-    sendJson(response, 200, summarizeWeek(referenceDate, store.tasks, store.history || {}));
+    const snapshot = await store.readStore();
+    sendJson(response, 200, summarizeWeek(referenceDate, snapshot.tasks, snapshot.history || {}));
     return;
   }
 
@@ -158,21 +159,23 @@ async function router(request, response) {
   }
 
   if (request.method === 'GET' && url.pathname === '/api/export') {
-    const store = readStore();
-    sendJson(response, 200, store);
+    const store = await getStore();
+    sendJson(response, 200, await store.readStore());
     return;
   }
 
   const taskIdMatch = url.pathname.match(/^\/api\/tasks\/(\d+)$/);
   if (taskIdMatch && request.method === 'PATCH') {
+    const store = await getStore();
     const payload = await readJsonBody(request);
-    const task = updateTask(Number(taskIdMatch[1]), payload);
+    const task = await store.updateTask(Number(taskIdMatch[1]), payload);
     sendJson(response, 200, { item: task });
     return;
   }
 
   if (taskIdMatch && request.method === 'DELETE') {
-    const task = deleteTask(Number(taskIdMatch[1]));
+    const store = await getStore();
+    const task = await store.deleteTask(Number(taskIdMatch[1]));
     sendJson(response, 200, { item: task });
     return;
   }

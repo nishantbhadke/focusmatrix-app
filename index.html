@@ -3,267 +3,48 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FocusMatrix Notebook</title>
-  <meta name="description" content="A notebook-style productivity prototype for planning, tracking, and reviewing your work.">
+  <title>FocusMatrix Routes</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles/main.css">
 </head>
 <body>
   <div class="paper-noise" aria-hidden="true"></div>
-  <div class="app-shell">
-    <aside class="sidebar">
-      <div class="brand-block">
-        <div class="brand-mark">FM</div>
-        <div>
-          <p class="eyebrow">Notebook prototype</p>
-          <h1>FocusMatrix</h1>
-        </div>
+  <main class="page-stack" style="max-width: 1100px; margin: 0 auto; padding: 32px 24px;">
+    <section class="hero-card">
+      <div class="hero-copy">
+        <span class="hero-chip">Route selector</span>
+        <h3>Keep the prototype safe. Evolve the app separately.</h3>
+        <p>
+          This landing page separates the stable demo route, the main app route, and the API docs route.
+          That way your prototype stays safe during demos while the app path can continue evolving.
+        </p>
       </div>
-
-      <nav class="nav-tabs" aria-label="Sections">
-        <button class="nav-tab active" data-view="today">Today</button>
-        <button class="nav-tab" data-view="dashboard">Dashboard</button>
-        <button class="nav-tab" data-view="matrix">Matrix</button>
-        <button class="nav-tab" data-view="report">Weekly</button>
-        <button class="nav-tab" data-view="review">Review</button>
-      </nav>
-
-      <section class="sidebar-note">
-        <p class="eyebrow">Daily prompt</p>
-        <p id="dailyPrompt">Pick one Q2 task worth protecting before your day gets noisy.</p>
-      </section>
-
-      <section class="sidebar-note">
-        <p class="eyebrow">Quick stats</p>
-        <ul class="mini-stats">
-          <li><span>Tasks</span><strong id="miniTaskCount">0</strong></li>
-          <li><span>Done</span><strong id="miniDoneCount">0</strong></li>
-          <li><span>Score</span><strong id="miniScore">0%</strong></li>
-        </ul>
-      </section>
-    </aside>
-
-    <main class="page-stack">
-      <header class="topbar">
-        <div>
-          <p class="eyebrow">Behavioral productivity notebook</p>
-          <h2 id="pageTitle">Today at a glance</h2>
+    </section>
+    <section class="page-grid">
+      <article class="paper-card">
+        <div class="card-header">
+          <div><p class="eyebrow">Demo-safe</p><h3>Prototype</h3></div>
         </div>
-        <div class="topbar-right">
-          <div class="date-badge" id="todayBadge"></div>
-          <button class="ghost-button" id="resetDemoButton" type="button">Reset sample data</button>
+        <p>Stable local-data route for presentations and safe demos.</p>
+        <p><a href="./prototype/">Open prototype</a></p>
+      </article>
+      <article class="paper-card">
+        <div class="card-header">
+          <div><p class="eyebrow">Evolving path</p><h3>Main app</h3></div>
         </div>
-      </header>
-
-      <section class="hero-card">
-        <div class="hero-copy">
-          <span class="hero-chip">Plan less. Finish better.</span>
-          <h3>See the gap between what you meant to do and what you actually completed.</h3>
-          <p>
-            This prototype is static, browser-based, and ready to run from the repo.
-            It stores data in your browser and is designed to be published through GitHub Pages.
-          </p>
+        <p>Frontend route intended to point at the backend later without touching the prototype.</p>
+        <p><a href="./app/">Open app route</a></p>
+      </article>
+      <article class="paper-card">
+        <div class="card-header">
+          <div><p class="eyebrow">API contract</p><h3>Swagger docs</h3></div>
         </div>
-        <div class="score-card">
-          <span class="eyebrow">Discipline score</span>
-          <div class="score-ring">
-            <svg viewBox="0 0 120 120" aria-hidden="true">
-              <circle cx="60" cy="60" r="48" class="ring-track"></circle>
-              <circle cx="60" cy="60" r="48" class="ring-fill" id="heroRing"></circle>
-            </svg>
-            <div class="score-ring-label">
-              <strong id="heroScore">0%</strong>
-              <span id="heroGrade">F</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="view active" id="view-today">
-        <div class="paper-card">
-          <div class="card-header">
-            <div>
-              <p class="eyebrow">Capture the day</p>
-              <h3>Quick add</h3>
-            </div>
-            <button class="ghost-button" id="suggestButton" type="button">Suggest quadrant</button>
-          </div>
-          <form class="quick-form" id="taskForm">
-            <label class="field">
-              <span>Task</span>
-              <input id="taskText" name="text" type="text" placeholder="Write investor update, review sprint board..." maxlength="120" required>
-            </label>
-            <div class="field-grid">
-              <label class="field">
-                <span>Quadrant</span>
-                <select id="taskQuadrant" name="q">
-                  <option value="Q1">Q1 - Do First</option>
-                  <option value="Q2">Q2 - Schedule</option>
-                  <option value="Q3">Q3 - Delegate</option>
-                  <option value="Q4">Q4 - Eliminate</option>
-                </select>
-              </label>
-              <label class="field">
-                <span>Category</span>
-                <select id="taskCategory" name="cat">
-                  <option value="work">Work</option>
-                  <option value="personal">Personal</option>
-                  <option value="health">Health</option>
-                  <option value="learning">Learning</option>
-                  <option value="admin">Admin</option>
-                  <option value="creative">Creative</option>
-                </select>
-              </label>
-              <label class="field">
-                <span>Energy</span>
-                <select id="taskEnergy" name="energy">
-                  <option value="high">High</option>
-                  <option value="medium">Medium</option>
-                  <option value="low">Low</option>
-                </select>
-              </label>
-            </div>
-            <div class="form-actions">
-              <div class="helper-text" id="suggestionText">Tip: use task verbs like build, review, or reply to auto-suggest a quadrant.</div>
-              <button class="ink-button" type="submit">Add to notebook</button>
-            </div>
-          </form>
-        </div>
-
-        <div class="page-grid">
-          <section class="paper-card">
-            <div class="card-header">
-              <div>
-                <p class="eyebrow">Today's list</p>
-                <h3>Open loops</h3>
-              </div>
-              <span class="badge-pill" id="pendingCount">0 pending</span>
-            </div>
-            <div class="task-list" id="pendingList"></div>
-          </section>
-
-          <section class="paper-card">
-            <div class="card-header">
-              <div>
-                <p class="eyebrow">Closed loops</p>
-                <h3>Completed today</h3>
-              </div>
-              <span class="badge-pill badge-success" id="completedCount">0 done</span>
-            </div>
-            <div class="task-list" id="completedList"></div>
-          </section>
-        </div>
-      </section>
-
-      <section class="view" id="view-dashboard">
-        <div class="metrics-grid">
-          <article class="paper-card metric-card">
-            <span class="eyebrow">Completion</span>
-            <strong id="metricCompletion">0%</strong>
-            <p>Share of tasks finished today.</p>
-          </article>
-          <article class="paper-card metric-card">
-            <span class="eyebrow">Strategic ratio</span>
-            <strong id="metricStrategic">0%</strong>
-            <p>How much of your work sits in Q2.</p>
-          </article>
-          <article class="paper-card metric-card">
-            <span class="eyebrow">Distraction index</span>
-            <strong id="metricDistraction">0</strong>
-            <p>Q4 tasks logged today.</p>
-          </article>
-          <article class="paper-card metric-card">
-            <span class="eyebrow">Streak</span>
-            <strong id="metricStreak">0d</strong>
-            <p>Consecutive days with tracked work.</p>
-          </article>
-        </div>
-
-        <div class="page-grid">
-          <section class="paper-card">
-            <div class="card-header">
-              <div>
-                <p class="eyebrow">Quadrant spread</p>
-                <h3>Where your time is going</h3>
-              </div>
-            </div>
-            <div class="meter-list" id="quadrantBars"></div>
-          </section>
-
-          <section class="paper-card">
-            <div class="card-header">
-              <div>
-                <p class="eyebrow">Today’s readout</p>
-                <h3>Behavioral notes</h3>
-              </div>
-            </div>
-            <div class="insight-list" id="dailyInsights"></div>
-          </section>
-        </div>
-      </section>
-
-      <section class="view" id="view-matrix">
-        <div class="matrix-grid" id="matrixGrid"></div>
-      </section>
-
-      <section class="view" id="view-report">
-        <div class="paper-card">
-          <div class="card-header">
-            <div>
-              <p class="eyebrow">Seven-day story</p>
-              <h3 id="weeklyRange">Weekly report</h3>
-            </div>
-            <span class="badge-pill" id="weeklyScore">0%</span>
-          </div>
-          <div class="week-strip" id="weekStrip"></div>
-          <div class="insight-list" id="weeklyInsights"></div>
-        </div>
-      </section>
-
-      <section class="view" id="view-review">
-        <div class="page-grid">
-          <section class="paper-card">
-            <div class="card-header">
-              <div>
-                <p class="eyebrow">Code review map</p>
-                <h3>What to check before you ship</h3>
-              </div>
-            </div>
-            <ol class="review-list">
-              <li>Task capture: add, toggle, and delete flows feel instant and save correctly.</li>
-              <li>Analytics: discipline score, weekly average, and quadrant counts match the visible tasks.</li>
-              <li>Responsive layout: notebook cards stack cleanly on small screens.</li>
-              <li>Data safety: reset is intentional and localStorage migration stays stable.</li>
-              <li>Docs and deploy: README instructions match the actual repo and GitHub Pages setup.</li>
-            </ol>
-          </section>
-
-          <section class="paper-card">
-            <div class="card-header">
-              <div>
-                <p class="eyebrow">Prototype scope</p>
-                <h3>What is live now</h3>
-              </div>
-            </div>
-            <ul class="review-list">
-              <li>Static app that runs straight from `index.html`</li>
-              <li>Local browser persistence with seeded sample data</li>
-              <li>Notebook-style UI with subtle transitions and paper textures</li>
-              <li>GitHub Pages-ready publishing workflow</li>
-              <li>Optional backend kept in the repo for future evolution</li>
-            </ul>
-          </section>
-        </div>
-      </section>
-    </main>
-  </div>
-
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
-
-  <script src="src/analytics.js"></script>
-  <script src="src/data.js"></script>
-  <script src="src/app.js"></script>
+        <p>Static API docs route for the backend contract and future integration work.</p>
+        <p><a href="./swagger/">Open Swagger docs</a></p>
+      </article>
+    </section>
+  </main>
 </body>
 </html>

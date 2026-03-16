@@ -6,13 +6,12 @@ The idea is straightforward: most productivity tools are good at collecting task
 
 ## What it is
 
-This repository currently contains a static web app prototype with:
+This repository currently contains:
 
-- task capture with quadrant, category, and energy tagging
-- automatic quadrant suggestions based on task wording
-- a daily dashboard with a discipline score and work-distribution metrics
-- a weekly summary view
-- browser-based local persistence with no backend required to use the prototype
+- a stable static prototype route for demos
+- a separate main app route for backend-connected evolution
+- Swagger docs for the backend API contract
+- a MongoDB Community-ready backend with JSON fallback
 
 The current product direction is intentionally simple: make it fast to open, easy to understand, and honest about how your day was actually spent.
 
@@ -30,16 +29,29 @@ FocusMatrix is based on the belief that execution tells a more useful story than
 - CSS
 - vanilla JavaScript
 - browser `localStorage` for persistence
+- optional Node.js backend with MongoDB Community support
 - GitHub Pages workflow for zero-cost deployment
 
-There is also an early backend MVP in [backend/](./backend/README.md), but the main usable version today is the static app.
+There is also a backend MVP in [backend/](./backend/README.md) with MongoDB support for durable server-side storage, but the main usable GitHub Pages experience is still frontend-only.
+
+## Public routes
+
+Once GitHub Pages is enabled, you can keep the routes separated:
+
+- landing page: `https://nishantbhadke.github.io/focusmatrix-app/`
+- prototype route: `https://nishantbhadke.github.io/focusmatrix-app/prototype/`
+- app route: `https://nishantbhadke.github.io/focusmatrix-app/app/`
+- swagger docs: `https://nishantbhadke.github.io/focusmatrix-app/swagger/`
+
+This split is intentional so the demo-safe prototype does not get affected by backend or integration changes on the app route.
 
 ## Running it locally
 
 No build step is required.
 
 1. Clone the repository
-2. Open [`index.html`](./index.html) in a browser
+2. Open [`prototype/index.html`](./prototype/index.html) for the stable demo route
+3. Open [`app/index.html`](./app/index.html) for the separate app route
 
 That is enough to use the app.
 
@@ -47,6 +59,10 @@ That is enough to use the app.
 
 ```text
 index.html                 # app entry
+prototype/index.html       # stable demo route
+app/index.html             # separate main app route
+swagger/index.html         # Swagger UI
+swagger/openapi.json       # API contract
 styles/main.css            # notebook-style UI
 src/app.js                 # UI behavior and rendering
 src/data.js                # local persistence + seed data
@@ -94,9 +110,11 @@ To publish it:
 
 That is enough to deploy the static prototype without paying for any additional platform.
 
-Once GitHub Pages is enabled, the live site URL will be:
+Important constraint:
 
-`https://nishantbhadke.github.io/focusmatrix-app/`
+- GitHub Pages can host the frontend routes and Swagger docs
+- GitHub Pages cannot host the Node.js backend or MongoDB
+- the backend will still need a separate runtime later if you want the app route to save server-side data
 
 ## Testing
 
@@ -129,6 +147,7 @@ Near-term:
 - support editing existing tasks
 - improve the weekly insight layer
 - tighten onboarding and empty states
+- point the app route at the hosted Mongo backend later
 
 Later:
 

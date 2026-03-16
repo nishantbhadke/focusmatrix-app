@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FocusMatrix App</title>
+  <meta name="description" content="Backend-ready FocusMatrix app route.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles/main.css">
+</head>
+<body>
+  <script>
+    window.FocusMatrixConfig = {
+      mode: 'app',
+      title: 'FocusMatrix App',
+      subtitle: 'Backend-ready app route',
+      storageMode: 'local',
+      apiBaseUrl: '',
+      apiDocsUrl: '../swagger/'
+    };
+  </script>
+  <div class="paper-noise" aria-hidden="true"></div>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand-block">
+        <div class="brand-mark">FM</div>
+        <div>
+          <p class="eyebrow">Main app route</p>
+          <h1>FocusMatrix</h1>
+        </div>
+      </div>
+      <nav class="nav-tabs" aria-label="Sections">
+        <button class="nav-tab active" data-view="today">Today</button>
+        <button class="nav-tab" data-view="dashboard">Dashboard</button>
+        <button class="nav-tab" data-view="matrix">Matrix</button>
+        <button class="nav-tab" data-view="report">Weekly</button>
+        <button class="nav-tab" data-view="review">Review</button>
+      </nav>
+      <section class="sidebar-note">
+        <p class="eyebrow">Connection mode</p>
+        <p id="dailyPrompt">This route is reserved for the real app path. It can later point to your Mongo-backed API without touching the demo prototype.</p>
+      </section>
+      <section class="sidebar-note">
+        <p class="eyebrow">App links</p>
+        <ul class="mini-stats">
+          <li><span>Prototype</span><strong><a href="../prototype/">Open</a></strong></li>
+          <li><span>Swagger</span><strong><a href="../swagger/">Open</a></strong></li>
+          <li><span>API mode</span><strong>Ready</strong></li>
+        </ul>
+      </section>
+    </aside>
+    <main class="page-stack">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">App route</p>
+          <h2 id="pageTitle">Today at a glance</h2>
+        </div>
+        <div class="topbar-right">
+          <div class="date-badge" id="todayBadge"></div>
+          <button class="ghost-button" id="resetDemoButton" type="button">Reset sample data</button>
+        </div>
+      </header>
+      <section class="hero-card">
+        <div class="hero-copy">
+          <span class="hero-chip">Main app path</span>
+          <h3>Use this route for the evolving app experience, and keep the prototype route frozen for demos.</h3>
+          <p>
+            GitHub Pages can host this frontend, but it cannot host the MongoDB backend itself.
+            When you later deploy the API, this route can target that API while the prototype route stays untouched.
+          </p>
+        </div>
+        <div class="score-card">
+          <span class="eyebrow">Discipline score</span>
+          <div class="score-ring">
+            <svg viewBox="0 0 120 120" aria-hidden="true">
+              <circle cx="60" cy="60" r="48" class="ring-track"></circle>
+              <circle cx="60" cy="60" r="48" class="ring-fill" id="heroRing"></circle>
+            </svg>
+            <div class="score-ring-label">
+              <strong id="heroScore">0%</strong>
+              <span id="heroGrade">F</span>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="view active" id="view-today">
+        <div class="paper-card">
+          <div class="card-header">
+            <div>
+              <p class="eyebrow">Capture the day</p>
+              <h3>Quick add</h3>
+            </div>
+            <button class="ghost-button" id="suggestButton" type="button">Suggest quadrant</button>
+          </div>
+          <form class="quick-form" id="taskForm">
+            <label class="field"><span>Task</span><input id="taskText" name="text" type="text" placeholder="Write investor update, review sprint board..." maxlength="120" required></label>
+            <div class="field-grid">
+              <label class="field"><span>Quadrant</span><select id="taskQuadrant" name="q"><option value="Q1">Q1 - Do First</option><option value="Q2">Q2 - Schedule</option><option value="Q3">Q3 - Delegate</option><option value="Q4">Q4 - Eliminate</option></select></label>
+              <label class="field"><span>Category</span><select id="taskCategory" name="cat"><option value="work">Work</option><option value="personal">Personal</option><option value="health">Health</option><option value="learning">Learning</option><option value="admin">Admin</option><option value="creative">Creative</option></select></label>
+              <label class="field"><span>Energy</span><select id="taskEnergy" name="energy"><option value="high">High</option><option value="medium">Medium</option><option value="low">Low</option></select></label>
+            </div>
+            <div class="form-actions">
+              <div class="helper-text" id="suggestionText">This route can later switch to a real API without breaking the demo-safe prototype.</div>
+              <button class="ink-button" type="submit">Add to notebook</button>
+            </div>
+          </form>
+        </div>
+        <div class="page-grid">
+          <section class="paper-card"><div class="card-header"><div><p class="eyebrow">Today's list</p><h3>Open loops</h3></div><span class="badge-pill" id="pendingCount">0 pending</span></div><div class="task-list" id="pendingList"></div></section>
+          <section class="paper-card"><div class="card-header"><div><p class="eyebrow">Closed loops</p><h3>Completed today</h3></div><span class="badge-pill badge-success" id="completedCount">0 done</span></div><div class="task-list" id="completedList"></div></section>
+        </div>
+      </section>
+      <section class="view" id="view-dashboard"><div class="metrics-grid"><article class="paper-card metric-card"><span class="eyebrow">Completion</span><strong id="metricCompletion">0%</strong><p>Share of tasks finished today.</p></article><article class="paper-card metric-card"><span class="eyebrow">Strategic ratio</span><strong id="metricStrategic">0%</strong><p>How much of your work sits in Q2.</p></article><article class="paper-card metric-card"><span class="eyebrow">Distraction index</span><strong id="metricDistraction">0</strong><p>Q4 tasks logged today.</p></article><article class="paper-card metric-card"><span class="eyebrow">Streak</span><strong id="metricStreak">0d</strong><p>Consecutive days with tracked work.</p></article></div><div class="page-grid"><section class="paper-card"><div class="card-header"><div><p class="eyebrow">Quadrant spread</p><h3>Where your time is going</h3></div></div><div class="meter-list" id="quadrantBars"></div></section><section class="paper-card"><div class="card-header"><div><p class="eyebrow">Today’s readout</p><h3>Behavioral notes</h3></div></div><div class="insight-list" id="dailyInsights"></div></section></div></section>
+      <section class="view" id="view-matrix"><div class="matrix-grid" id="matrixGrid"></div></section>
+      <section class="view" id="view-report"><div class="paper-card"><div class="card-header"><div><p class="eyebrow">Seven-day story</p><h3 id="weeklyRange">Weekly report</h3></div><span class="badge-pill" id="weeklyScore">0%</span></div><div class="week-strip" id="weekStrip"></div><div class="insight-list" id="weeklyInsights"></div></div></section>
+      <section class="view" id="view-review"><div class="page-grid"><section class="paper-card"><div class="card-header"><div><p class="eyebrow">Main app route</p><h3>What this route is for</h3></div></div><ul class="review-list"><li>Frontend path intended to evolve with the backend</li><li>Separate from the stable prototype route</li><li>Safe place to test integration work</li><li>Can point at a hosted Mongo-backed API later</li></ul></section><section class="paper-card"><div class="card-header"><div><p class="eyebrow">Important constraint</p><h3>GitHub Pages is frontend only</h3></div></div><ul class="review-list"><li>Pages can host this app route</li><li>Pages cannot host Node.js or MongoDB</li><li>Swagger can still be published as static docs</li><li>The API will need a separate runtime later</li></ul></section></div></section>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="../src/analytics.js"></script>
+  <script src="../src/data.js"></script>
+  <script src="../src/app.js"></script>
+</body>
+</html>

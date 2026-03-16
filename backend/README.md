@@ -1,6 +1,6 @@
 # FocusMatrix Backend
 
-This backend turns the current single-file FocusMatrix prototype into a small API-driven app without adding external dependencies.
+This backend turns the current FocusMatrix prototype into a small API-driven app.
 
 ## What It Covers
 
@@ -19,12 +19,13 @@ This backend turns the current single-file FocusMatrix prototype into a small AP
 
 - Runtime: Node.js 18+
 - Server: built-in `http` module
-- Storage: JSON file at `backend/data/focusmatrix.json`
+- Primary database option: MongoDB Community via `MONGODB_URL`
+- Fallback storage: JSON file at `backend/data/focusmatrix.json`
 - Analytics: same scoring model as the current frontend prototype
 
 ## Why This Shape
 
-The current app is a single HTML file using `localStorage`. This backend keeps the same task model:
+The current app is static and originally used `localStorage`. This backend keeps the same task model:
 
 ```json
 {
@@ -45,12 +46,39 @@ That means the frontend can migrate incrementally:
 2. Replace `saveData()` with `POST`, `PATCH`, and `DELETE`
 3. Keep the existing rendering logic mostly unchanged
 
+## Database Mode
+
+### Option 1: MongoDB Community
+
+Set `MONGODB_URL` in `backend/.env` or your shell:
+
+```bash
+MONGODB_URL=mongodb://127.0.0.1:27017
+MONGODB_DB=focusmatrix
+```
+
+Then run:
+
+```bash
+cd backend
+npm install
+npm run db:init
+npm start
+```
+
+The backend will create the collections automatically and seed initial data if the database is empty.
+
+### Option 2: JSON fallback
+
+If `MONGODB_URL` is not set, the backend keeps using the local JSON store. That is useful for quick local work, but MongoDB is the real backend path if you want durable server-side persistence.
+
 ## Run It
 
 Install Node.js 18 or newer, then:
 
 ```bash
 cd backend
+npm install
 node src/server.js
 ```
 
@@ -84,6 +112,5 @@ curl -X PATCH http://localhost:3000/api/tasks/1 \
 ## Next Backend Steps
 
 - Add multi-user auth and user-scoped task storage
-- Move from JSON file storage to Postgres or Supabase
 - Add focus session tracking and calendar sync tables
 - Add API auth, rate limiting, and audit logging

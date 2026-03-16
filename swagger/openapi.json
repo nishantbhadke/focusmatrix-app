@@ -1,0 +1,148 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "FocusMatrix API",
+    "version": "0.1.0",
+    "description": "API contract for the FocusMatrix backend."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Local backend"
+    }
+  ],
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "Health check",
+        "responses": {
+          "200": {
+            "description": "Backend status"
+          }
+        }
+      }
+    },
+    "/api/meta": {
+      "get": {
+        "summary": "Get app metadata",
+        "responses": {
+          "200": {
+            "description": "Quadrants, categories, energy levels"
+          }
+        }
+      }
+    },
+    "/api/tasks": {
+      "get": {
+        "summary": "List tasks",
+        "parameters": [
+          { "name": "date", "in": "query", "schema": { "type": "string" } },
+          { "name": "from", "in": "query", "schema": { "type": "string" } },
+          { "name": "to", "in": "query", "schema": { "type": "string" } },
+          { "name": "q", "in": "query", "schema": { "type": "string" } },
+          { "name": "cat", "in": "query", "schema": { "type": "string" } },
+          { "name": "done", "in": "query", "schema": { "type": "boolean" } }
+        ],
+        "responses": { "200": { "description": "Task list" } }
+      },
+      "post": {
+        "summary": "Create task",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TaskInput"
+              }
+            }
+          }
+        },
+        "responses": { "201": { "description": "Created task" } }
+      }
+    },
+    "/api/tasks/{id}": {
+      "patch": {
+        "summary": "Update task",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/TaskPatch" }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Updated task" } }
+      },
+      "delete": {
+        "summary": "Delete task",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": { "200": { "description": "Deleted task" } }
+      }
+    },
+    "/api/dashboard": {
+      "get": {
+        "summary": "Get daily dashboard",
+        "parameters": [
+          { "name": "date", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": { "200": { "description": "Daily dashboard" } }
+      }
+    },
+    "/api/report/weekly": {
+      "get": {
+        "summary": "Get weekly report",
+        "parameters": [
+          { "name": "date", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": { "200": { "description": "Weekly report" } }
+      }
+    },
+    "/api/suggestions/quadrant": {
+      "get": {
+        "summary": "Suggest task quadrant",
+        "parameters": [
+          { "name": "text", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": { "200": { "description": "Quadrant suggestion" } }
+      }
+    },
+    "/api/export": {
+      "get": {
+        "summary": "Export all stored data",
+        "responses": { "200": { "description": "Export payload" } }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "TaskInput": {
+        "type": "object",
+        "required": ["text", "q", "cat", "energy"],
+        "properties": {
+          "text": { "type": "string" },
+          "q": { "type": "string" },
+          "cat": { "type": "string" },
+          "energy": { "type": "string" },
+          "done": { "type": "boolean" },
+          "date": { "type": "string" }
+        }
+      },
+      "TaskPatch": {
+        "type": "object",
+        "properties": {
+          "text": { "type": "string" },
+          "q": { "type": "string" },
+          "cat": { "type": "string" },
+          "energy": { "type": "string" },
+          "done": { "type": "boolean" },
+          "date": { "type": "string" }
+        }
+      }
+    }
+  }
+}
