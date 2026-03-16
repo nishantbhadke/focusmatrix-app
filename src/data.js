@@ -1,5 +1,6 @@
 (function (root) {
-  var storageKey = "focusmatrix_notebook_v1";
+  var config = root.FocusMatrixConfig || {};
+  var storageKey = config.storageKey || ("focusmatrix_" + (config.mode || "default") + "_v1");
 
   function seedHistory() {
     var history = {};

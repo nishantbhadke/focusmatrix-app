@@ -1,6 +1,7 @@
 (function () {
   var analytics = window.FocusMatrixAnalytics;
   var dataStore = window.FocusMatrixData;
+  var config = window.FocusMatrixConfig || {};
   var state = { data: dataStore.load(), currentView: "today" };
 
   var quadrantMeta = {
@@ -62,12 +63,24 @@
     qs("miniTaskCount").textContent = String(summary.totalTasks);
     qs("miniDoneCount").textContent = String(summary.doneTasks);
     qs("miniScore").textContent = summary.score + "%";
-    qs("dailyPrompt").textContent = summary.strategicRatio < 25
-      ? "Your notebook is reactive right now. Add one calmer Q2 task before anything else."
-      : "You already have strategic work on the page. Protect it before the day fragments.";
+    if (!config.lockDailyPrompt) {
+      qs("dailyPrompt").textContent = summary.strategicRatio < 25
+        ? "Your notebook is reactive right now. Add one calmer Q2 task before anything else."
+        : "You already have strategic work on the page. Protect it before the day fragments.";
+    }
   }
 
   function taskHtml(task) {
+    var hoverNote = task.done
+      ? "Completed and counted in today's score"
+      : (task.q === "Q2"
+        ? "Strategic work. Protect focused time."
+        : task.q === "Q1"
+          ? "Urgent work. Try to close this early."
+          : task.q === "Q3"
+            ? "Reactive work. Keep this contained."
+            : "Low-value work. Reduce or eliminate.");
+
     return [
       '<article class="task-item', task.done ? ' done' : '', '">',
       '<input class="task-check" type="checkbox" aria-label="Toggle task" data-action="toggle" data-id="', task.id, '"', task.done ? ' checked' : '', '>',
@@ -78,6 +91,10 @@
       '<span>', escapeHtml(task.cat), '</span>',
       '<span>', escapeHtml(task.energy), ' energy</span>',
       '</div>',
+      '</div>',
+      '<div class="task-hover-info">',
+      '<span class="task-hover-stat">', escapeHtml(task.q), '</span>',
+      '<span class="task-hover-text">', escapeHtml(hoverNote), '</span>',
       '</div>',
       '<div class="task-actions"><button class="task-action" type="button" data-action="delete" data-id="', task.id, '">Delete</button></div>',
       '</article>'
@@ -100,7 +117,11 @@
     for (var i = 0; i < 30; i += 1) {
       var date = new Date();
       date.setDate(date.getDate() - i);
-      var key = date.toISOString().slice(0, 10);
+      var key = [
+        date.getFullYear(),
+        (date.getMonth() + 1 < 10 ? "0" : "") + (date.getMonth() + 1),
+        (date.getDate() < 10 ? "0" : "") + date.getDate()
+      ].join("-");
       if (state.data.history[key] && state.data.history[key].tasks > 0) streak += 1;
       else break;
     }
@@ -183,7 +204,7 @@
       report: "Weekly notebook review",
       review: "Shipping checklist"
     };
-    qs("pageTitle").textContent = titles[view];
+    qs("pageTitle").textContent = (config.pageTitles && config.pageTitles[view]) || titles[view];
   }
 
   function addTask(event) {

@@ -5,20 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FocusMatrix App</title>
   <meta name="description" content="Backend-ready FocusMatrix app route.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../styles/main.css">
 </head>
 <body>
   <script>
     window.FocusMatrixConfig = {
       mode: 'app',
+      storageKey: 'focusmatrix_app_v1',
       title: 'FocusMatrix App',
       subtitle: 'Backend-ready app route',
       storageMode: 'local',
       apiBaseUrl: '',
-      apiDocsUrl: '../swagger/'
+      apiDocsUrl: '../swagger/',
+      lockDailyPrompt: true,
+      pageTitles: {
+        today: 'App route at a glance',
+        dashboard: 'App dashboard',
+        matrix: 'App matrix',
+        report: 'App weekly review',
+        review: 'App route notes'
+      }
     };
   </script>
   <div class="paper-noise" aria-hidden="true"></div>

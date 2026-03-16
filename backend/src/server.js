@@ -131,7 +131,7 @@ async function router(request, response) {
 
   if (request.method === 'GET' && url.pathname === '/api/dashboard') {
     const store = await getStore();
-    const date = normalizeDate(url.searchParams.get('date') || undefined);
+    const date = await normalizeDate(url.searchParams.get('date') || undefined);
     const { tasks } = await store.getTasks({ date });
     sendJson(response, 200, {
       date,
@@ -143,7 +143,7 @@ async function router(request, response) {
 
   if (request.method === 'GET' && url.pathname === '/api/report/weekly') {
     const store = await getStore();
-    const referenceDate = normalizeDate(url.searchParams.get('date') || undefined);
+    const referenceDate = await normalizeDate(url.searchParams.get('date') || undefined);
     const snapshot = await store.readStore();
     sendJson(response, 200, summarizeWeek(referenceDate, snapshot.tasks, snapshot.history || {}));
     return;

@@ -5,18 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FocusMatrix Prototype</title>
   <meta name="description" content="Stable demo prototype for FocusMatrix.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../styles/main.css">
 </head>
 <body>
   <script>
     window.FocusMatrixConfig = {
       mode: 'prototype',
+      storageKey: 'focusmatrix_prototype_v1',
       title: 'FocusMatrix Prototype',
       subtitle: 'Stable demo notebook',
-      storageMode: 'local'
+      storageMode: 'local',
+      lockDailyPrompt: true,
+      pageTitles: {
+        today: 'Prototype at a glance',
+        dashboard: 'Prototype dashboard',
+        matrix: 'Prototype matrix',
+        report: 'Prototype weekly review',
+        review: 'Prototype checklist'
+      }
     };
   </script>
   <div class="paper-noise" aria-hidden="true"></div>
