@@ -6,11 +6,15 @@
   <title>FocusMatrix App</title>
   <meta name="description" content="Backend-ready FocusMatrix app route.">
   <link rel="stylesheet" href="../styles/main.css">
+  <script src="../config/runtime-config.js"></script>
 </head>
 <body>
   <script>
+    var runtimeConfig = window.FocusMatrixRuntime || {};
     var runtimeApiBase = "";
-    if (window.location.protocol === "file:" || window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
+    if (runtimeConfig.apiBaseUrl) {
+      runtimeApiBase = runtimeConfig.apiBaseUrl;
+    } else if (window.location.protocol === "file:" || window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
       runtimeApiBase = "http://127.0.0.1:3000";
     }
 
@@ -21,7 +25,7 @@
       subtitle: "Connected workspace",
       storageMode: "hybrid",
       apiBaseUrl: runtimeApiBase,
-      apiDocsUrl: "../swagger/",
+      apiDocsUrl: runtimeConfig.apiDocsUrl || "../swagger/",
       lockDailyPrompt: true,
       pageTitles: {
         today: "Connected workspace",
@@ -43,11 +47,11 @@
         </div>
       </div>
       <nav class="nav-tabs" aria-label="Sections">
-        <button class="nav-tab active" data-view="today">Today</button>
-        <button class="nav-tab" data-view="dashboard">Dashboard</button>
-        <button class="nav-tab" data-view="matrix">Matrix</button>
-        <button class="nav-tab" data-view="report">Weekly</button>
-        <button class="nav-tab" data-view="review">Review</button>
+        <button class="nav-tab active" type="button" data-view="today">Today</button>
+        <button class="nav-tab" type="button" data-view="dashboard">Dashboard</button>
+        <button class="nav-tab" type="button" data-view="matrix">Matrix</button>
+        <button class="nav-tab" type="button" data-view="report">Weekly</button>
+        <button class="nav-tab" type="button" data-view="review">Review</button>
       </nav>
       <section class="sidebar-note">
         <p class="eyebrow">Connection mode</p>

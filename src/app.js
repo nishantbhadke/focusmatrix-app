@@ -222,13 +222,43 @@
     renderWeekly();
   }
 
-  function setView(view) {
-    state.currentView = view;
+  function resolveView(view) {
+    var allowedViews = {
+      today: true,
+      dashboard: true,
+      matrix: true,
+      report: true,
+      review: true
+    };
+
+    return allowedViews[view] ? view : "today";
+  }
+
+  function syncHash(view) {
+    var targetHash = "#/" + view;
+    if (window.location.hash !== targetHash) {
+      window.location.hash = targetHash;
+    }
+  }
+
+  function scrollToActiveView() {
+    if (window.innerWidth > 1180) return;
+    var activeView = document.querySelector(".view.active");
+    if (!activeView) return;
+    activeView.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function setView(view, options) {
+    var nextView = resolveView(view);
+    var settings = options || {};
+
+    state.currentView = nextView;
     Array.prototype.forEach.call(document.querySelectorAll(".view"), function (node) {
-      node.classList.toggle("active", node.id === "view-" + view);
+      node.classList.toggle("active", node.id === "view-" + nextView);
     });
     Array.prototype.forEach.call(document.querySelectorAll(".nav-tab"), function (node) {
-      node.classList.toggle("active", node.getAttribute("data-view") === view);
+      node.classList.toggle("active", node.getAttribute("data-view") === nextView);
+      node.setAttribute("aria-current", node.getAttribute("data-view") === nextView ? "page" : "false");
     });
     var titles = {
       today: "Today at a glance",
@@ -237,7 +267,15 @@
       report: "Weekly notebook review",
       review: "Shipping checklist"
     };
-    qs("pageTitle").textContent = (config.pageTitles && config.pageTitles[view]) || titles[view];
+    qs("pageTitle").textContent = (config.pageTitles && config.pageTitles[nextView]) || titles[nextView];
+
+    if (!settings.skipHash) {
+      syncHash(nextView);
+    }
+
+    if (!settings.skipScroll) {
+      scrollToActiveView();
+    }
   }
 
   function withBusy(task) {
@@ -334,7 +372,14 @@
 
   function bindEvents() {
     Array.prototype.forEach.call(document.querySelectorAll(".nav-tab"), function (node) {
-      node.addEventListener("click", function () { setView(node.getAttribute("data-view")); });
+      node.addEventListener("click", function () {
+        setView(node.getAttribute("data-view"));
+      });
+    });
+
+    window.addEventListener("hashchange", function () {
+      var hashView = window.location.hash.replace(/^#\/?/, "");
+      setView(hashView || "today", { skipHash: true, skipScroll: true });
     });
 
     qs("taskForm").addEventListener("submit", addTask);
@@ -353,7 +398,7 @@
 
   function init() {
     bindEvents();
-    setView("today");
+    setView(window.location.hash.replace(/^#\/?/, "") || "today", { skipHash: true, skipScroll: true });
     showBootState("Loading your notebook...");
 
     dataStore.load().then(function (data) {

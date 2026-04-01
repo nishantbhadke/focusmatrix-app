@@ -21,6 +21,7 @@ This backend turns the current FocusMatrix prototype into a small API-driven app
 - Runtime: Node.js 18+
 - Server: built-in `http` module
 - Primary database option: MongoDB Community via `MONGODB_URL`
+- Optional cache option: Valkey-compatible endpoint via `VALKEY_URL`
 - Fallback storage: JSON file at `backend/data/focusmatrix.json`
 - Analytics: same scoring model as the current frontend prototype
 
@@ -56,6 +57,7 @@ Set `MONGODB_URL` in `backend/.env` or your shell:
 ```bash
 MONGODB_URL=mongodb://127.0.0.1:27017
 MONGODB_DB=focusmatrix
+VALKEY_URL=redis://127.0.0.1:6379
 ```
 
 Then run:
@@ -67,6 +69,8 @@ npm start
 ```
 
 The backend will create the collections automatically and seed initial data if the database is empty.
+
+If `VALKEY_URL` is set, cacheable reads such as metadata, filtered task reads, dashboard summaries, weekly reports, and store export responses will be cached and automatically invalidated after writes.
 
 ### Option 2: JSON fallback
 
@@ -91,6 +95,21 @@ curl http://localhost:3000/health
 curl "http://localhost:3000/api/tasks?date=2026-03-16"
 curl "http://localhost:3000/api/dashboard?date=2026-03-16"
 curl "http://localhost:3000/api/report/weekly?date=2026-03-16"
+```
+
+The health endpoint now also reports cache state:
+
+```json
+{
+  "status": "ok",
+  "service": "focusmatrix-backend",
+  "storage": "mongodb",
+  "driver": "mongo",
+  "cache": {
+    "driver": "valkey",
+    "connected": true
+  }
+}
 ```
 
 Create a task:

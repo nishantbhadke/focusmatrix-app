@@ -11,7 +11,8 @@ This repository currently contains:
 - a stable static prototype route for demos
 - a separate main app route for backend-connected evolution
 - Swagger docs for the backend API contract
-- a MongoDB Community-ready backend with JSON fallback
+- a MongoDB-ready backend with JSON fallback
+- optional Valkey caching support for hosted API reads
 
 The current product direction is intentionally simple: make it fast to open, easy to understand, and honest about how your day was actually spent.
 
@@ -30,9 +31,17 @@ FocusMatrix is based on the belief that execution tells a more useful story than
 - vanilla JavaScript
 - browser `localStorage` for the prototype route
 - optional Node.js backend with MongoDB Community support for the main app route
+- optional Valkey cache layer for hosted API acceleration
 - GitHub Pages workflow for zero-cost deployment
 
 There is also a backend MVP in [backend/](./backend/README.md) with MongoDB support for durable server-side storage, but the main usable GitHub Pages experience is still frontend-only.
+
+## Architecture
+
+- system architecture: [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md)
+- hosted deployment plan: [docs/HOSTING.md](./docs/HOSTING.md)
+
+The repo now keeps architecture and deployment flow in versioned docs so the system stays easier to understand over time.
 
 ## Public routes
 
@@ -69,6 +78,7 @@ That is enough to use the app.
 index.html                 # app entry
 prototype/index.html       # stable demo route
 app/index.html             # separate main app route
+config/runtime-config.js   # hosted frontend API config
 swagger/index.html         # Swagger UI
 swagger/openapi.json       # API contract
 styles/main.css            # notebook-style UI
@@ -107,7 +117,7 @@ tests/run-tests.cmd        # lightweight Windows test runner
 
 ## Deployment
 
-This repo is already set up to go live through GitHub only.
+This repo is already set up to go live on GitHub Pages for the frontend.
 
 The workflow is in [deploy-pages.yml](./.github/workflows/deploy-pages.yml).
 
@@ -124,17 +134,18 @@ Important constraint:
 
 - GitHub Pages can host the frontend routes and Swagger docs
 - GitHub Pages cannot host the Node.js backend or MongoDB
+- the recommended hosted stack is GitHub Pages + Koyeb + MongoDB Atlas + optional Valkey
 - the backend will still need a separate runtime later if you want the app route to save server-side data
 
 ## Testing
 
-For the current prototype, there is a small Windows-based test runner:
+For the current prototype, there is a small Node-based test runner:
 
 ```bat
 tests\run-tests.cmd
 ```
 
-It validates the analytics logic using built-in Windows scripting tools.
+It validates the analytics logic locally without adding extra test frameworks.
 
 For manual checks, use [docs/QA-CHECKLIST.md](./docs/QA-CHECKLIST.md).
 
