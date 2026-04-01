@@ -172,6 +172,12 @@ async function deleteTask(id) {
   return task;
 }
 
+async function resetStore() {
+  const seed = createSeedData();
+  writeStore(seed);
+  return readStore();
+}
+
 module.exports = {
   kind: 'json',
   storageLabel: dataFile,
@@ -180,5 +186,6 @@ module.exports = {
   readStore: readFullStore,
   createTask,
   updateTask,
-  deleteTask
+  deleteTask,
+  resetStore
 };

@@ -164,6 +164,12 @@ async function router(request, response) {
     return;
   }
 
+  if (request.method === 'POST' && url.pathname === '/api/dev/reset') {
+    const store = await getStore();
+    sendJson(response, 200, await store.resetStore());
+    return;
+  }
+
   const taskIdMatch = url.pathname.match(/^\/api\/tasks\/(\d+)$/);
   if (taskIdMatch && request.method === 'PATCH') {
     const store = await getStore();

@@ -1,2 +1,8 @@
+node_modules/
+.npm-cache/
+mongodb-data/
+mongodb-logs/
+backend.out.log
+backend.err.log
 data/*.json
 !data/.gitkeep

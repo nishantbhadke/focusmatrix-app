@@ -83,9 +83,24 @@ async function createMongoStore() {
 
   const existingState = await appState.findOne({ singleton: true });
   if (!existingState) {
+    await resetCollections();
+  }
+
+  async function resetCollections() {
     const seed = createSeedData();
-    await appState.insertOne({ singleton: true, nextTaskId: seed.nextTaskId, createdAt: new Date(), updatedAt: new Date() });
+    await tasks.deleteMany({});
+    await history.deleteMany({});
+    await appState.deleteMany({});
+
+    await appState.insertOne({
+      singleton: true,
+      nextTaskId: seed.nextTaskId,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+
     if (seed.tasks.length) await tasks.insertMany(seed.tasks);
+
     const historyDocs = [];
     Object.keys(seed.history).forEach((date) => {
       historyDocs.push({ date: date, score: seed.history[date].score, taskCount: seed.history[date].tasks });
@@ -195,6 +210,10 @@ async function createMongoStore() {
       await tasks.deleteOne({ id: id });
       await refreshHistory(current.date);
       return mapTask(current);
+    },
+    async resetStore() {
+      await resetCollections();
+      return this.readStore();
     }
   };
 }

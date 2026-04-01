@@ -28,8 +28,8 @@ FocusMatrix is based on the belief that execution tells a more useful story than
 - HTML
 - CSS
 - vanilla JavaScript
-- browser `localStorage` for persistence
-- optional Node.js backend with MongoDB Community support
+- browser `localStorage` for the prototype route
+- optional Node.js backend with MongoDB Community support for the main app route
 - GitHub Pages workflow for zero-cost deployment
 
 There is also a backend MVP in [backend/](./backend/README.md) with MongoDB support for durable server-side storage, but the main usable GitHub Pages experience is still frontend-only.
@@ -52,6 +52,14 @@ No build step is required.
 1. Clone the repository
 2. Open [`prototype/index.html`](./prototype/index.html) for the stable demo route
 3. Open [`app/index.html`](./app/index.html) for the separate app route
+
+If you want the main app route to save into Mongo locally:
+
+1. Start MongoDB
+2. Run the backend from [`backend/run-local.cmd`](./backend/run-local.cmd)
+3. Open [`app/index.html`](./app/index.html)
+
+The app route prefers the local API automatically when it is available. If the backend is offline, it falls back to browser storage instead of breaking.
 
 That is enough to use the app.
 
@@ -80,6 +88,8 @@ tests/run-tests.cmd        # lightweight Windows test runner
 - complete tasks
 - delete tasks
 - reset demo data
+- keep the prototype route isolated from app-route changes
+- use Mongo-backed persistence in the main app route when the local backend is running
 
 ### Behavior layer
 

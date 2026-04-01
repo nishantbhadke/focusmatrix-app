@@ -13,7 +13,8 @@ This backend turns the current FocusMatrix prototype into a small API-driven app
 - `GET /api/dashboard?date=YYYY-MM-DD` for daily metrics
 - `GET /api/report/weekly?date=YYYY-MM-DD` for weekly report card data
 - `GET /api/suggestions/quadrant?text=...` for smart quadrant suggestions
-- `GET /api/export` to dump the current JSON store
+- `GET /api/export` to dump the current store snapshot
+- `POST /api/dev/reset` to restore seeded local test data
 
 ## Architecture
 
@@ -62,7 +63,6 @@ Then run:
 ```bash
 cd backend
 npm install
-npm run db:init
 npm start
 ```
 

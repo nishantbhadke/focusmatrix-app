@@ -1,2 +1,2 @@
 @echo off
-cscript //nologo tests\analytics-tests.js
+node tests\analytics-tests.js

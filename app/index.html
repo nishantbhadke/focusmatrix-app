@@ -9,21 +9,26 @@
 </head>
 <body>
   <script>
+    var runtimeApiBase = "";
+    if (window.location.protocol === "file:" || window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
+      runtimeApiBase = "http://127.0.0.1:3000";
+    }
+
     window.FocusMatrixConfig = {
-      mode: 'app',
-      storageKey: 'focusmatrix_app_v1',
-      title: 'FocusMatrix App',
-      subtitle: 'Backend-ready app route',
-      storageMode: 'local',
-      apiBaseUrl: '',
-      apiDocsUrl: '../swagger/',
+      mode: "app",
+      storageKey: "focusmatrix_app_v1",
+      title: "FocusMatrix App",
+      subtitle: "Connected workspace",
+      storageMode: "hybrid",
+      apiBaseUrl: runtimeApiBase,
+      apiDocsUrl: "../swagger/",
       lockDailyPrompt: true,
       pageTitles: {
-        today: 'App route at a glance',
-        dashboard: 'App dashboard',
-        matrix: 'App matrix',
-        report: 'App weekly review',
-        review: 'App route notes'
+        today: "Connected workspace",
+        dashboard: "App dashboard",
+        matrix: "App matrix",
+        report: "App weekly review",
+        review: "Integration notes"
       }
     };
   </script>
@@ -46,14 +51,14 @@
       </nav>
       <section class="sidebar-note">
         <p class="eyebrow">Connection mode</p>
-        <p id="dailyPrompt">This route is reserved for the real app path. It can later point to your Mongo-backed API without touching the demo prototype.</p>
+        <p id="dailyPrompt">This route prefers the local Mongo-backed API when it is available, and falls back gracefully when it is not.</p>
       </section>
       <section class="sidebar-note">
         <p class="eyebrow">App links</p>
         <ul class="mini-stats">
           <li><span>Prototype</span><strong><a href="../prototype/">Open</a></strong></li>
           <li><span>Swagger</span><strong><a href="../swagger/">Open</a></strong></li>
-          <li><span>API mode</span><strong>Ready</strong></li>
+          <li><span>Storage</span><strong id="connectionMode">Checking</strong></li>
         </ul>
       </section>
     </aside>
@@ -61,7 +66,7 @@
       <header class="topbar">
         <div>
           <p class="eyebrow">App route</p>
-          <h2 id="pageTitle">Today at a glance</h2>
+          <h2 id="pageTitle">Connected workspace</h2>
         </div>
         <div class="topbar-right">
           <div class="date-badge" id="todayBadge"></div>
@@ -71,10 +76,10 @@
       <section class="hero-card">
         <div class="hero-copy">
           <span class="hero-chip">Main app path</span>
-          <h3>Use this route for the evolving app experience, and keep the prototype route frozen for demos.</h3>
+          <h3>Use this route for the real working app, while the prototype route stays frozen for demos.</h3>
           <p>
-            GitHub Pages can host this frontend, but it cannot host the MongoDB backend itself.
-            When you later deploy the API, this route can target that API while the prototype route stays untouched.
+            Locally, this page can talk to the Mongo-backed backend and keep day-to-day data durable.
+            On GitHub Pages it can still open cleanly, but without a backend it will stay in browser mode.
           </p>
         </div>
         <div class="score-card">
@@ -108,7 +113,7 @@
               <label class="field"><span>Energy</span><select id="taskEnergy" name="energy"><option value="high">High</option><option value="medium">Medium</option><option value="low">Low</option></select></label>
             </div>
             <div class="form-actions">
-              <div class="helper-text" id="suggestionText">This route can later switch to a real API without breaking the demo-safe prototype.</div>
+              <div class="helper-text" id="suggestionText">The app route will use Mongo locally when the backend is running.</div>
               <button class="ink-button" type="submit">Add to notebook</button>
             </div>
           </form>
@@ -118,10 +123,10 @@
           <section class="paper-card"><div class="card-header"><div><p class="eyebrow">Closed loops</p><h3>Completed today</h3></div><span class="badge-pill badge-success" id="completedCount">0 done</span></div><div class="task-list" id="completedList"></div></section>
         </div>
       </section>
-      <section class="view" id="view-dashboard"><div class="metrics-grid"><article class="paper-card metric-card"><span class="eyebrow">Completion</span><strong id="metricCompletion">0%</strong><p>Share of tasks finished today.</p></article><article class="paper-card metric-card"><span class="eyebrow">Strategic ratio</span><strong id="metricStrategic">0%</strong><p>How much of your work sits in Q2.</p></article><article class="paper-card metric-card"><span class="eyebrow">Distraction index</span><strong id="metricDistraction">0</strong><p>Q4 tasks logged today.</p></article><article class="paper-card metric-card"><span class="eyebrow">Streak</span><strong id="metricStreak">0d</strong><p>Consecutive days with tracked work.</p></article></div><div class="page-grid"><section class="paper-card"><div class="card-header"><div><p class="eyebrow">Quadrant spread</p><h3>Where your time is going</h3></div></div><div class="meter-list" id="quadrantBars"></div></section><section class="paper-card"><div class="card-header"><div><p class="eyebrow">Today’s readout</p><h3>Behavioral notes</h3></div></div><div class="insight-list" id="dailyInsights"></div></section></div></section>
+      <section class="view" id="view-dashboard"><div class="metrics-grid"><article class="paper-card metric-card"><span class="eyebrow">Completion</span><strong id="metricCompletion">0%</strong><p>Share of tasks finished today.</p></article><article class="paper-card metric-card"><span class="eyebrow">Strategic ratio</span><strong id="metricStrategic">0%</strong><p>How much of your work sits in Q2.</p></article><article class="paper-card metric-card"><span class="eyebrow">Distraction index</span><strong id="metricDistraction">0</strong><p>Q4 tasks logged today.</p></article><article class="paper-card metric-card"><span class="eyebrow">Streak</span><strong id="metricStreak">0d</strong><p>Consecutive days with tracked work.</p></article></div><div class="page-grid"><section class="paper-card"><div class="card-header"><div><p class="eyebrow">Quadrant spread</p><h3>Where your time is going</h3></div></div><div class="meter-list" id="quadrantBars"></div></section><section class="paper-card"><div class="card-header"><div><p class="eyebrow">Today's readout</p><h3>Behavioral notes</h3></div></div><div class="insight-list" id="dailyInsights"></div></section></div></section>
       <section class="view" id="view-matrix"><div class="matrix-grid" id="matrixGrid"></div></section>
       <section class="view" id="view-report"><div class="paper-card"><div class="card-header"><div><p class="eyebrow">Seven-day story</p><h3 id="weeklyRange">Weekly report</h3></div><span class="badge-pill" id="weeklyScore">0%</span></div><div class="week-strip" id="weekStrip"></div><div class="insight-list" id="weeklyInsights"></div></div></section>
-      <section class="view" id="view-review"><div class="page-grid"><section class="paper-card"><div class="card-header"><div><p class="eyebrow">Main app route</p><h3>What this route is for</h3></div></div><ul class="review-list"><li>Frontend path intended to evolve with the backend</li><li>Separate from the stable prototype route</li><li>Safe place to test integration work</li><li>Can point at a hosted Mongo-backed API later</li></ul></section><section class="paper-card"><div class="card-header"><div><p class="eyebrow">Important constraint</p><h3>GitHub Pages is frontend only</h3></div></div><ul class="review-list"><li>Pages can host this app route</li><li>Pages cannot host Node.js or MongoDB</li><li>Swagger can still be published as static docs</li><li>The API will need a separate runtime later</li></ul></section></div></section>
+      <section class="view" id="view-review"><div class="page-grid"><section class="paper-card"><div class="card-header"><div><p class="eyebrow">Main app route</p><h3>What this route is for</h3></div></div><ul class="review-list"><li>Frontend path intended to evolve with the backend</li><li>Separate from the stable prototype route</li><li>Local Mongo-backed storage when the API is running</li><li>Fallback to browser mode when the backend is offline</li></ul></section><section class="paper-card"><div class="card-header"><div><p class="eyebrow">Important constraint</p><h3>GitHub Pages is frontend only</h3></div></div><ul class="review-list"><li>Pages can host this app route</li><li>Pages cannot host Node.js or MongoDB</li><li>Swagger can still be published as static docs</li><li>The API will need a separate runtime later</li></ul></section></div></section>
     </main>
   </div>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>

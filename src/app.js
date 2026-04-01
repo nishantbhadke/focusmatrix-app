@@ -2,28 +2,37 @@
   var analytics = window.FocusMatrixAnalytics;
   var dataStore = window.FocusMatrixData;
   var config = window.FocusMatrixConfig || {};
-  var state = { data: dataStore.load(), currentView: "today" };
+  var state = { data: null, currentView: "today", busy: false };
 
   var quadrantMeta = {
-    Q1: { title: "Q1 - Do First", description: "Urgent and important", color: "#c45b4d" },
-    Q2: { title: "Q2 - Schedule", description: "Important, not urgent", color: "#3d7a73" },
-    Q3: { title: "Q3 - Delegate", description: "Urgent, less important", color: "#c49a3a" },
-    Q4: { title: "Q4 - Eliminate", description: "Neither urgent nor important", color: "#7f8a98" }
+    Q1: { title: "Q1 - Do First", description: "Urgent and important", color: "#d05f4d" },
+    Q2: { title: "Q2 - Schedule", description: "Important, not urgent", color: "#2b7a69" },
+    Q3: { title: "Q3 - Delegate", description: "Urgent, less important", color: "#b9871f" },
+    Q4: { title: "Q4 - Eliminate", description: "Neither urgent nor important", color: "#708090" }
   };
 
   function qs(id) { return document.getElementById(id); }
 
+  function currentDate() {
+    return analytics.todayKey();
+  }
+
   function todayTasks() {
-    var today = analytics.todayKey();
+    if (!state.data) return [];
     return state.data.tasks
-      .filter(function (task) { return task.date === today; })
+      .filter(function (task) { return task.date === currentDate(); })
       .sort(function (left, right) { return left.ts - right.ts; });
   }
 
-  function persist() {
+  function persistLocalHistory() {
+    if (!state.data) return;
+    if (dataStore.mode === "api" || dataStore.connected) return;
+
     var summary = analytics.buildDaySummary(todayTasks());
-    state.data.history[analytics.todayKey()] = { score: summary.score, tasks: summary.totalTasks };
-    dataStore.save(state.data);
+    state.data.history[currentDate()] = { score: summary.score, tasks: summary.totalTasks };
+    if (typeof dataStore.saveSnapshot === "function") {
+      dataStore.saveSnapshot(state.data);
+    }
   }
 
   function showToast(message) {
@@ -44,11 +53,29 @@
       .replace(/"/g, "&quot;");
   }
 
+  function setConnectionBadge() {
+    var node = qs("connectionMode");
+    if (!node) return;
+
+    if (dataStore.connected) {
+      node.textContent = "Mongo API";
+      node.className = "badge-pill badge-live";
+      return;
+    }
+
+    node.textContent = dataStore.mode === "api" ? "Offline" : "Local only";
+    node.className = "badge-pill";
+  }
+
   function renderTop() {
     var tasks = todayTasks();
     var summary = analytics.buildDaySummary(tasks);
     var radius = 2 * Math.PI * 48;
     var offset = radius - (summary.score / 100) * radius;
+    var miniTaskCount = qs("miniTaskCount");
+    var miniDoneCount = qs("miniDoneCount");
+    var miniScore = qs("miniScore");
+    var dailyPrompt = qs("dailyPrompt");
 
     qs("todayBadge").textContent = new Date().toLocaleDateString("en-US", {
       weekday: "short",
@@ -60,14 +87,18 @@
     qs("heroRing").style.stroke = summary.scoreColor;
     qs("heroRing").style.strokeDasharray = radius.toFixed(1);
     qs("heroRing").style.strokeDashoffset = offset.toFixed(1);
-    qs("miniTaskCount").textContent = String(summary.totalTasks);
-    qs("miniDoneCount").textContent = String(summary.doneTasks);
-    qs("miniScore").textContent = summary.score + "%";
-    if (!config.lockDailyPrompt) {
-      qs("dailyPrompt").textContent = summary.strategicRatio < 25
+
+    if (miniTaskCount) miniTaskCount.textContent = String(summary.totalTasks);
+    if (miniDoneCount) miniDoneCount.textContent = String(summary.doneTasks);
+    if (miniScore) miniScore.textContent = summary.score + "%";
+
+    if (dailyPrompt && !config.lockDailyPrompt) {
+      dailyPrompt.textContent = summary.strategicRatio < 25
         ? "Your notebook is reactive right now. Add one calmer Q2 task before anything else."
         : "You already have strategic work on the page. Protect it before the day fragments.";
     }
+
+    setConnectionBadge();
   }
 
   function taskHtml(task) {
@@ -83,7 +114,7 @@
 
     return [
       '<article class="task-item', task.done ? ' done' : '', '">',
-      '<input class="task-check" type="checkbox" aria-label="Toggle task" data-action="toggle" data-id="', task.id, '"', task.done ? ' checked' : '', '>',
+      '<input class="task-check" type="checkbox" aria-label="Toggle task" data-action="toggle" data-id="', task.id, '"', task.done ? ' checked' : '', state.busy ? ' disabled' : '', '>',
       '<div class="task-content">',
       '<strong>', escapeHtml(task.text), '</strong>',
       '<div class="task-meta">',
@@ -96,7 +127,7 @@
       '<span class="task-hover-stat">', escapeHtml(task.q), '</span>',
       '<span class="task-hover-text">', escapeHtml(hoverNote), '</span>',
       '</div>',
-      '<div class="task-actions"><button class="task-action" type="button" data-action="delete" data-id="', task.id, '">Delete</button></div>',
+      '<div class="task-actions"><button class="task-action" type="button" data-action="delete" data-id="', task.id, '"', state.busy ? ' disabled' : '', '>Delete</button></div>',
       '</article>'
     ].join("");
   }
@@ -113,6 +144,7 @@
   }
 
   function calculateStreak() {
+    if (!state.data) return 0;
     var streak = 0;
     for (var i = 0; i < 30; i += 1) {
       var date = new Date();
@@ -133,10 +165,10 @@
     var summary = analytics.buildDaySummary(tasks);
     var insights = analytics.buildDailyInsights(tasks);
     var bars = [
-      { label: "Do First", count: tasks.filter(function (task) { return task.q === "Q1"; }).length, color: "#c45b4d" },
-      { label: "Schedule", count: tasks.filter(function (task) { return task.q === "Q2"; }).length, color: "#3d7a73" },
-      { label: "Delegate", count: tasks.filter(function (task) { return task.q === "Q3"; }).length, color: "#c49a3a" },
-      { label: "Eliminate", count: tasks.filter(function (task) { return task.q === "Q4"; }).length, color: "#7f8a98" }
+      { label: "Do First", count: tasks.filter(function (task) { return task.q === "Q1"; }).length, color: "#d05f4d", note: "Urgent execution work" },
+      { label: "Schedule", count: tasks.filter(function (task) { return task.q === "Q2"; }).length, color: "#2b7a69", note: "Important long-term work" },
+      { label: "Delegate", count: tasks.filter(function (task) { return task.q === "Q3"; }).length, color: "#b9871f", note: "Reactive hand-off work" },
+      { label: "Eliminate", count: tasks.filter(function (task) { return task.q === "Q4"; }).length, color: "#708090", note: "Noise and distractions" }
     ];
 
     qs("metricCompletion").textContent = summary.completionRate + "%";
@@ -146,7 +178,7 @@
 
     qs("quadrantBars").innerHTML = bars.map(function (bar) {
       var width = tasks.length ? Math.round((bar.count / tasks.length) * 100) : 0;
-      return '<div class="meter-row"><div class="meter-head"><span>' + bar.label + '</span><strong>' + bar.count + '</strong></div><div class="meter-track"><div class="meter-fill" style="width:' + width + '%; background:' + bar.color + ';"></div></div></div>';
+      return '<div class="meter-row"><div class="meter-head"><span>' + bar.label + '</span><strong>' + bar.count + '</strong></div><div class="meter-track"><div class="meter-fill" style="width:' + width + '%; background:' + bar.color + ';"></div></div><div class="meter-note">' + bar.note + '</div></div>';
     }).join("");
 
     qs("dailyInsights").innerHTML = insights.map(function (insight) {
@@ -165,11 +197,11 @@
   }
 
   function renderWeekly() {
-    var week = analytics.summarizeWeek(state.data.tasks, state.data.history, analytics.todayKey());
+    var week = analytics.summarizeWeek(state.data.tasks, state.data.history, currentDate());
     qs("weeklyRange").textContent = week.start + " to " + week.end;
     qs("weeklyScore").textContent = week.averageScore + "%";
     qs("weekStrip").innerHTML = week.days.map(function (day) {
-      return '<div class="day-card"><strong>' + (day.score || "-") + '</strong><span>' + day.label + ' • ' + day.taskCount + ' tasks</span></div>';
+      return '<div class="day-card"><strong>' + (day.score || "-") + '</strong><span>' + day.label + " • " + day.taskCount + ' tasks</span></div>';
     }).join("");
     qs("weeklyInsights").innerHTML = [
       "Average weekly score: " + week.averageScore + "% (" + week.grade + ").",
@@ -181,7 +213,8 @@
   }
 
   function renderAll() {
-    persist();
+    if (!state.data) return;
+    persistLocalHistory();
     renderTop();
     renderLists();
     renderDashboard();
@@ -207,28 +240,42 @@
     qs("pageTitle").textContent = (config.pageTitles && config.pageTitles[view]) || titles[view];
   }
 
+  function withBusy(task) {
+    if (state.busy) return Promise.resolve();
+    state.busy = true;
+    renderLists();
+
+    return task().catch(function (error) {
+      showToast(error.message || "Something went wrong.");
+    }).finally(function () {
+      state.busy = false;
+      renderLists();
+    });
+  }
+
   function addTask(event) {
     event.preventDefault();
     var text = qs("taskText").value.replace(/\s+/g, " ").trim();
     if (!text) return;
 
-    state.data.tasks.push({
-      id: state.data.nextId++,
-      text: text,
-      q: qs("taskQuadrant").value,
-      cat: qs("taskCategory").value,
-      energy: qs("taskEnergy").value,
-      done: false,
-      date: analytics.todayKey(),
-      ts: Date.now()
+    withBusy(function () {
+      return dataStore.createTask({
+        text: text,
+        q: qs("taskQuadrant").value,
+        cat: qs("taskCategory").value,
+        energy: qs("taskEnergy").value,
+        done: false,
+        date: currentDate()
+      }).then(function (result) {
+        state.data = result.data;
+        event.target.reset();
+        qs("taskQuadrant").value = "Q1";
+        qs("taskCategory").value = "work";
+        qs("taskEnergy").value = "high";
+        renderAll();
+        showToast(dataStore.connected ? "Task saved to Mongo." : "Task added to the notebook.");
+      });
     });
-
-    event.target.reset();
-    qs("taskQuadrant").value = "Q1";
-    qs("taskCategory").value = "work";
-    qs("taskEnergy").value = "high";
-    renderAll();
-    showToast("Task added to the notebook.");
   }
 
   function handleTaskActions(event) {
@@ -241,15 +288,23 @@
     if (!task) return;
 
     if (action === "toggle") {
-      task.done = !task.done;
-      renderAll();
-      showToast(task.done ? "Nice. Task marked complete." : "Task moved back to open loops.");
+      withBusy(function () {
+        return dataStore.updateTask(id, { done: !task.done }).then(function (result) {
+          state.data = result.data;
+          renderAll();
+          showToast(task.done ? "Task moved back to open loops." : "Nice. Task marked complete.");
+        });
+      });
     }
 
     if (action === "delete") {
-      state.data.tasks = state.data.tasks.filter(function (item) { return item.id !== id; });
-      renderAll();
-      showToast("Task removed.");
+      withBusy(function () {
+        return dataStore.deleteTask(id).then(function (result) {
+          state.data = result.data;
+          renderAll();
+          showToast("Task removed.");
+        });
+      });
     }
   }
 
@@ -267,20 +322,51 @@
     showToast("Suggested " + quadrantMeta[suggestion].title + ".");
   }
 
-  Array.prototype.forEach.call(document.querySelectorAll(".nav-tab"), function (node) {
-    node.addEventListener("click", function () { setView(node.getAttribute("data-view")); });
-  });
+  function resetData() {
+    withBusy(function () {
+      return dataStore.reset().then(function (nextData) {
+        state.data = nextData.data || nextData;
+        renderAll();
+        showToast(dataStore.connected ? "Mongo sample data restored." : "Sample notebook restored.");
+      });
+    });
+  }
 
-  qs("taskForm").addEventListener("submit", addTask);
-  qs("suggestButton").addEventListener("click", suggestQuadrant);
-  qs("pendingList").addEventListener("click", handleTaskActions);
-  qs("completedList").addEventListener("click", handleTaskActions);
-  qs("resetDemoButton").addEventListener("click", function () {
-    state.data = dataStore.reset();
-    renderAll();
-    showToast("Sample notebook restored.");
-  });
+  function bindEvents() {
+    Array.prototype.forEach.call(document.querySelectorAll(".nav-tab"), function (node) {
+      node.addEventListener("click", function () { setView(node.getAttribute("data-view")); });
+    });
 
-  renderAll();
-  setView("today");
+    qs("taskForm").addEventListener("submit", addTask);
+    qs("suggestButton").addEventListener("click", suggestQuadrant);
+    qs("pendingList").addEventListener("click", handleTaskActions);
+    qs("completedList").addEventListener("click", handleTaskActions);
+    qs("resetDemoButton").addEventListener("click", resetData);
+  }
+
+  function showBootState(message) {
+    var pendingList = qs("pendingList");
+    var completedList = qs("completedList");
+    if (pendingList) pendingList.innerHTML = '<div class="empty-state">' + escapeHtml(message) + '</div>';
+    if (completedList) completedList.innerHTML = '<div class="empty-state">The completed list will appear here.</div>';
+  }
+
+  function init() {
+    bindEvents();
+    setView("today");
+    showBootState("Loading your notebook...");
+
+    dataStore.load().then(function (data) {
+      state.data = data;
+      renderAll();
+      if (dataStore.connected) {
+        showToast("Connected to Mongo-backed API.");
+      }
+    }).catch(function (error) {
+      showBootState("Unable to load the notebook.");
+      showToast(error.message || "Unable to load the notebook.");
+    });
+  }
+
+  init();
 }());
