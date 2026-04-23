@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:wpc="http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas"
+ xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"
+ xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math"
+ xmlns:v="urn:schemas-microsoft-com:vml"
+ xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing"
+ xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing"
+ xmlns:w10="urn:schemas-microsoft-com:office:word"
+ xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"
+ xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml"
+ xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup"
+ xmlns:wpi="http://schemas.microsoft.com/office/word/2010/wordprocessingInk"
+ xmlns:wne="http://schemas.microsoft.com/office/2006/wordml"
+ xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape"
+ mc:Ignorable="w14 wp14">
+  <w:body>
+    <w:p><w:pPr><w:jc w:val="center"/><w:spacing w:after="40"/></w:pPr><w:r><w:rPr><w:b/><w:sz w:val="22"/></w:rPr><w:t xml:space="preserve">NISHANT BHADKE</w:t></w:r></w:p>
+    <w:p><w:pPr><w:spacing w:after="40"/></w:pPr><w:r><w:rPr><w:sz w:val="22"/></w:rPr><w:t xml:space="preserve">Nashik, Maharashtra, India | P: +91-9172773982</w:t></w:r></w:p>
+    <w:p><w:pPr><w:spacing w:after="40"/></w:pPr><w:r><w:rPr><w:sz w:val="22"/></w:rPr><w:t xml:space="preserve">officialnishantbhadke@gmail.com | linkedin.com/in/nishant-bhadke-983837185/</w:t></w:r></w:p>
+    <w:p><w:pPr><w:spacing w:after="60"/></w:pPr></w:p>
+    <w:p><w:pPr><w:spacing w:after="40"/></w:pPr><w:r><w:rPr><w:b/><w:sz w:val="22"/></w:rPr><w:t xml:space="preserve">SKILLS</w:t></w:r></w:p>
+    <w:p><w:pPr><w:spacing w:after="40"/></w:pPr><w:r><w:rPr><w:sz w:val="22"/></w:rPr><w:t xml:space="preserve">C# | ASP.NET CORE | .NET CORE | REST APIS | ENTITY FRAMEWORK | SQL SERVER | MONGODB | AWS | DOCKER | CI/CD | AZURE DEVOPS | JAVASCRIPT | HTML | CSS | BOOTSTRAP | GIT | SWAGGER | ADO.NET | AGILE | BFSI DOMAIN</w:t></w:r></w:p>
+    <w:p><w:pPr><w:spacing w:after="60"/></w:pPr></w:p>
+    <w:p><w:pPr><w:spacing w:after="40"/></w:pPr><w:r><w:rPr><w:b/><w:sz w:val="22"/></w:rPr><w:t xml:space="preserve">WORK EXPERIENCE</w:t></w:r></w:p>
+    <w:p><w:pPr><w:spacing w:after="40"/></w:pPr><w:r><w:rPr><w:b/><w:sz w:val="22"/></w:rPr><w:t xml:space="preserve">WINJIT TECHNOLOGIES</w:t></w:r></w:p>
+    <w:p><w:pPr><w:spacing w:after="40"/></w:pPr><w:r><w:rPr><w:sz w:val="22"/></w:rPr><w:t xml:space="preserve">Software Engineer | [Add Start Date] - Present</w:t></w:r></w:p>
+    <w:p><w:pPr><w:spacing w:after="60"/></w:pPr></w:p>
+    <w:p><w:pPr><w:spacing w:after="40"/></w:pPr><w:r><w:rPr><w:sz w:val="22"/></w:rPr><w:t xml:space="preserve">• Designed and developed enterprise-grade RESTful APIs, workflow modules, and backend services using ASP.NET Core, C#, Entity Framework, and SQL Server for BFSI applications.</w:t></w:r></w:p>
+    <w:p><w:pPr><w:spacing w:after="40"/></w:pPr><w:r><w:rPr><w:sz w:val="22"/></w:rPr><w:t xml:space="preserve">• Improved SQL query performance by 40-45% through query tuning and optimization, increasing application responsiveness and scalability.</w:t></w:r></w:p>
+    <w:p><w:pPr><w:spacing w:after="40"/></w:pPr><w:r><w:rPr><w:sz w:val="22"/></w:rPr><w:t xml:space="preserve">• Built secure maker-checker workflows and compliance-driven business logic for loan disbursement and approval systems.</w:t></w:r></w:p>
+    <w:p><w:pPr><w:spacing w:after="40"/></w:pPr><w:r><w:rPr><w:sz w:val="22"/></w:rPr><w:t xml:space="preserve">• Delivered modules for NTB, top-up, and proactive renewal JLG loan products based on client business requirements.</w:t></w:r></w:p>
+    <w:p><w:pPr><w:spacing w:after="40"/></w:pPr><w:r><w:rPr><w:sz w:val="22"/></w:rPr><w:t xml:space="preserve">• Integrated third-party services for financial data validation and downstream workflow enablement.</w:t></w:r></w:p>
+    <w:p><w:pPr><w:spacing w:after="40"/></w:pPr><w:r><w:rPr><w:sz w:val="22"/></w:rPr><w:t xml:space="preserve">• Supported containerized deployments using Docker and participated in CI/CD and cloud-based delivery workflows.</w:t></w:r></w:p>
+    <w:p><w:pPr><w:spacing w:after="60"/></w:pPr></w:p>
+    <w:p><w:pPr><w:spacing w:after="40"/></w:pPr><w:r><w:rPr><w:b/><w:sz w:val="22"/></w:rPr><w:t xml:space="preserve">PROJECTS</w:t></w:r></w:p>
+    <w:p><w:pPr><w:spacing w:after="40"/></w:pPr><w:r><w:rPr><w:b/><w:sz w:val="22"/></w:rPr><w:t xml:space="preserve">BUSINESS COMPLIANCE MANAGEMENT SYSTEM (BCMS)</w:t></w:r></w:p>
+    <w:p><w:pPr><w:spacing w:after="40"/></w:pPr><w:r><w:rPr><w:sz w:val="22"/></w:rPr><w:t xml:space="preserve">• Streamlined loan application and disbursement workflows for BFSI clients through secure and scalable backend development.</w:t></w:r></w:p>
+    <w:p><w:pPr><w:spacing w:after="40"/></w:pPr><w:r><w:rPr><w:sz w:val="22"/></w:rPr><w:t xml:space="preserve">• Built role-based workflows and business validation logic to improve operational control and compliance.</w:t></w:r></w:p>
+    <w:p><w:pPr><w:spacing w:after="40"/></w:pPr><w:r><w:rPr><w:sz w:val="22"/></w:rPr><w:t xml:space="preserve">• Optimized database interactions to improve throughput and reduce response time under load.</w:t></w:r></w:p>
+    <w:p><w:pPr><w:spacing w:after="60"/></w:pPr></w:p>
+    <w:p><w:pPr><w:spacing w:after="40"/></w:pPr><w:r><w:rPr><w:b/><w:sz w:val="22"/></w:rPr><w:t xml:space="preserve">RADC</w:t></w:r></w:p>
+    <w:p><w:pPr><w:spacing w:after="40"/></w:pPr><w:r><w:rPr><w:sz w:val="22"/></w:rPr><w:t xml:space="preserve">• Developed utilities for dynamic PDF form generation and printing for banking workflows.</w:t></w:r></w:p>
+    <w:p><w:pPr><w:spacing w:after="40"/></w:pPr><w:r><w:rPr><w:sz w:val="22"/></w:rPr><w:t xml:space="preserve">• Implemented tracking mechanisms for user download history linked to product categories and operational reporting.</w:t></w:r></w:p>
+    <w:p><w:pPr><w:spacing w:after="40"/></w:pPr><w:r><w:rPr><w:sz w:val="22"/></w:rPr><w:t xml:space="preserve">• Enabled secure deployment and integration of BFSI solutions using .NET Core, SQL Server, REST APIs, and Docker.</w:t></w:r></w:p>
+    <w:p><w:pPr><w:spacing w:after="60"/></w:pPr></w:p>
+    <w:p><w:pPr><w:spacing w:after="40"/></w:pPr><w:r><w:rPr><w:b/><w:sz w:val="22"/></w:rPr><w:t xml:space="preserve">CITY UNION BANK (CUB)</w:t></w:r></w:p>
+    <w:p><w:pPr><w:spacing w:after="40"/></w:pPr><w:r><w:rPr><w:sz w:val="22"/></w:rPr><w:t xml:space="preserve">• Contributed to banking workflow enhancements involving secure API design, backend processing, and enterprise data handling.</w:t></w:r></w:p>
+    <w:p><w:pPr><w:spacing w:after="40"/></w:pPr><w:r><w:rPr><w:sz w:val="22"/></w:rPr><w:t xml:space="preserve">• Supported data-layer improvements and schema-level optimizations to align performance with enterprise banking needs.</w:t></w:r></w:p>
+    <w:p><w:pPr><w:spacing w:after="40"/></w:pPr><w:r><w:rPr><w:sz w:val="22"/></w:rPr><w:t xml:space="preserve">• Worked on API integration patterns for transaction integrity and secure financial processing.</w:t></w:r></w:p>
+    <w:p><w:pPr><w:spacing w:after="60"/></w:pPr></w:p>
+    <w:p><w:pPr><w:spacing w:after="40"/></w:pPr><w:r><w:rPr><w:b/><w:sz w:val="22"/></w:rPr><w:t xml:space="preserve">SURYODAY SMALL FINANCE BANK</w:t></w:r></w:p>
+    <w:p><w:pPr><w:spacing w:after="40"/></w:pPr><w:r><w:rPr><w:sz w:val="22"/></w:rPr><w:t xml:space="preserve">• Developed backend APIs powering secure banking transactions and authentication workflows.</w:t></w:r></w:p>
+    <w:p><w:pPr><w:spacing w:after="40"/></w:pPr><w:r><w:rPr><w:sz w:val="22"/></w:rPr><w:t xml:space="preserve">• Implemented database and caching optimization practices to reduce load and improve API response performance.</w:t></w:r></w:p>
+    <w:p><w:pPr><w:spacing w:after="40"/></w:pPr><w:r><w:rPr><w:sz w:val="22"/></w:rPr><w:t xml:space="preserve">• Collaborated with cross-functional teams to deliver production-grade banking features with reliability and maintainability.</w:t></w:r></w:p>
+    <w:p><w:pPr><w:spacing w:after="60"/></w:pPr></w:p>
+    <w:p><w:pPr><w:spacing w:after="40"/></w:pPr><w:r><w:rPr><w:b/><w:sz w:val="22"/></w:rPr><w:t xml:space="preserve">DCB CORPORATE BANKING</w:t></w:r></w:p>
+    <w:p><w:pPr><w:spacing w:after="40"/></w:pPr><w:r><w:rPr><w:sz w:val="22"/></w:rPr><w:t xml:space="preserve">• Built .NET Core APIs for corporate banking features including fund transfers, statements, and balance-related operations.</w:t></w:r></w:p>
+    <w:p><w:pPr><w:spacing w:after="40"/></w:pPr><w:r><w:rPr><w:sz w:val="22"/></w:rPr><w:t xml:space="preserve">• Supported dynamic PDF generation for downloadable banking documents and transaction outputs.</w:t></w:r></w:p>
+    <w:p><w:pPr><w:spacing w:after="40"/></w:pPr><w:r><w:rPr><w:sz w:val="22"/></w:rPr><w:t xml:space="preserve">• Delivered backend functionality focused on secure processing and stable enterprise-grade performance.</w:t></w:r></w:p>
+    <w:p><w:pPr><w:spacing w:after="60"/></w:pPr></w:p>
+    <w:p><w:pPr><w:spacing w:after="40"/></w:pPr><w:r><w:rPr><w:b/><w:sz w:val="22"/></w:rPr><w:t xml:space="preserve">BANK CUSTOMER CHURN PREDICTION SYSTEM</w:t></w:r></w:p>
+    <w:p><w:pPr><w:spacing w:after="40"/></w:pPr><w:r><w:rPr><w:sz w:val="22"/></w:rPr><w:t xml:space="preserve">• Built a churn prediction solution using customer transaction and profile data to identify at-risk customers.</w:t></w:r></w:p>
+    <w:p><w:pPr><w:spacing w:after="40"/></w:pPr><w:r><w:rPr><w:sz w:val="22"/></w:rPr><w:t xml:space="preserve">• Developed backend services in .NET and implemented classification models in Python, including Random Forest and Logistic Regression.</w:t></w:r></w:p>
+    <w:p><w:pPr><w:spacing w:after="40"/></w:pPr><w:r><w:rPr><w:sz w:val="22"/></w:rPr><w:t xml:space="preserve">• Combined application logic and analytics workflows to support prediction-based business use cases.</w:t></w:r></w:p>
+    <w:p><w:pPr><w:spacing w:after="60"/></w:pPr></w:p>
+    <w:p><w:pPr><w:spacing w:after="40"/></w:pPr><w:r><w:rPr><w:b/><w:sz w:val="22"/></w:rPr><w:t xml:space="preserve">REAL-TIME API AND LIVE STREAMING SOLUTION</w:t></w:r></w:p>
+    <w:p><w:pPr><w:spacing w:after="40"/></w:pPr><w:r><w:rPr><w:sz w:val="22"/></w:rPr><w:t xml:space="preserve">• Designed a concept backend for handling high-frequency API requests and real-time communication.</w:t></w:r></w:p>
+    <w:p><w:pPr><w:spacing w:after="40"/></w:pPr><w:r><w:rPr><w:sz w:val="22"/></w:rPr><w:t xml:space="preserve">• Planned support for low-latency streaming, synchronization of viewer interactions, and live status updates.</w:t></w:r></w:p>
+    <w:p><w:pPr><w:spacing w:after="40"/></w:pPr><w:r><w:rPr><w:sz w:val="22"/></w:rPr><w:t xml:space="preserve">• Defined integration needs for frontend clients using React or Angular with WebSockets or SignalR.</w:t></w:r></w:p>
+    <w:p><w:pPr><w:spacing w:after="60"/></w:pPr></w:p>
+    <w:p><w:pPr><w:spacing w:after="40"/></w:pPr><w:r><w:rPr><w:b/><w:sz w:val="22"/></w:rPr><w:t xml:space="preserve">EDUCATION</w:t></w:r></w:p>
+    <w:p><w:pPr><w:spacing w:after="40"/></w:pPr><w:r><w:rPr><w:b/><w:sz w:val="22"/></w:rPr><w:t xml:space="preserve">MASTER OF COMPUTER APPLICATIONS</w:t></w:r></w:p>
+    <w:p><w:pPr><w:spacing w:after="40"/></w:pPr><w:r><w:rPr><w:sz w:val="22"/></w:rPr><w:t xml:space="preserve">Pune University | Aug 2023</w:t></w:r></w:p>
+    <w:p><w:pPr><w:spacing w:after="60"/></w:pPr></w:p>
+    <w:p><w:pPr><w:spacing w:after="40"/></w:pPr><w:r><w:rPr><w:b/><w:sz w:val="22"/></w:rPr><w:t xml:space="preserve">BACHELOR OF COMPUTER SCIENCE</w:t></w:r></w:p>
+    <w:p><w:pPr><w:spacing w:after="40"/></w:pPr><w:r><w:rPr><w:sz w:val="22"/></w:rPr><w:t xml:space="preserve">Pune University | Aug 2021</w:t></w:r></w:p>
+    <w:sectPr>
+      <w:pgSz w:w="12240" w:h="15840"/>
+      <w:pgMar w:top="900" w:right="900" w:bottom="900" w:left="900" w:header="720" w:footer="720" w:gutter="0"/>
+    </w:sectPr>
+  </w:body>
+</w:document>
