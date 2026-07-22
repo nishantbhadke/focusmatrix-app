@@ -40,6 +40,7 @@ There is also a backend MVP in [backend/](./backend/README.md) with MongoDB supp
 
 - system architecture: [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md)
 - hosted deployment plan: [docs/HOSTING.md](./docs/HOSTING.md)
+- agent auth (A2A) personal learning log: [docs/AGENT-AUTH-LEARNING-LOG.md](./docs/AGENT-AUTH-LEARNING-LOG.md)
 
 The repo now keeps architecture and deployment flow in versioned docs so the system stays easier to understand over time.
 
