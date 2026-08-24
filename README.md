@@ -200,6 +200,7 @@ Email: [nishantbhadke118@gmail.com](mailto:nishantbhadke118@gmail.com)
 - [focusmatrix_v2.html](./focusmatrix_v2.html) is the earlier single-file prototype and is still kept in the repo for reference.
 - [backend/](./backend/README.md) contains an early backend MVP for future expansion.
 - The current primary entry point is [`index.html`](./index.html).
+- [docs/learning/agent-auth-a2a-log.md](./docs/learning/agent-auth-a2a-log.md) is a personal daily learning log on agent authentication/authorization for Agent-to-Agent communication, unrelated to the FocusMatrix product itself.
 
 ## License
 
